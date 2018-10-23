@@ -10,8 +10,8 @@
 
   tasks:
     - include_tasks: tasks/setup.yml
-#    - include_tasks: tasks/repos.yml
-#    - include_tasks: tasks/packages.yml
+    - include_tasks: tasks/repos.yml
+    - include_tasks: tasks/packages.yml
     - include_tasks: tasks/services.yml
     - include_tasks: tasks/thirdparty.yml
     - include_tasks: tasks/config.yml
@@ -21,5 +21,3 @@
     - include_tasks: handlers/main.yml
 
 
-# TODO
-# Steam repo ?
