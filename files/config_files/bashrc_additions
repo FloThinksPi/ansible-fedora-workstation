@@ -6,3 +6,4 @@ if [ -f `which powerline-daemon` ]; then
 fi
 
 set -o vi
+umask 0027

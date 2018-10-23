@@ -67,7 +67,6 @@
   dnf: name={{ item }} state=installed
   with_items:
   - acpi
-  - lm_sensors
   - autofs
   - crypto-utils
   - dnf-plugins-extras-common
@@ -85,9 +84,8 @@
   - lsscsi
   - ltrace
   - nmap
-  - pstree
+  - psmisc
   - rpm-ostree
-  - rpm-ostree-toolbox
   - screen
   - smartmontools
   - speedtest-cli

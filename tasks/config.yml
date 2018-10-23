@@ -13,13 +13,13 @@
   blockinfile:
     block: "{{ lookup('file', './files/config_files/vimrc') }}"
     marker: "# {mark} Ansible Managed Block (General VIM)"
+    create: yes
     path: /etc/vimrc.more
 
 - name: Configure Vim for Powerline
   blockinfile:
     block: "{{ lookup('file', './files/config_files/vimrc_powerline') }}"
     marker: "# {mark} Ansible Managed Block (powerline)"
-    create: yes
     path: /etc/vimrc.more
   when: install_powerline
 
@@ -44,14 +44,16 @@
 
 - name: Conigure Tuned to Performance always
   shell: tuned-adm profile latency-performance
-  when: not laptop
+  when: not is_laptop
 
 - name: Copy Udev Rules for Tuned to be configured to Performance on AC and Energy Saving on DC
-  copy: src=./files/laptop_power_management/udev/* dest=/etc/udev/rules.d/ mode=700
-  when: laptop
+  copy: src=./files/laptop_power_management/udev/ dest=/etc/udev/rules.d/ mode=700
+  when: is_laptop
 
 - name: Copy Scripts for Tuned to be configured to Performance on AC and Energy Saving on DC
-  copy: src=./files/laptop_power_management/scripts/* dest=/usr/local/bin/ mode=700
-  when: laptop
+  copy: src=./files/laptop_power_management/scripts/ dest=/usr/local/bin/ mode=700
+  when: is_laptop
+
+# Configureable umask
 
 # Config Flameshot Key to print
