@@ -12,14 +12,14 @@
 - name: Set general vimrc
   blockinfile:
     block: "{{ lookup('file', './files/config_files/vimrc') }}"
-    marker: "# {mark} Ansible Managed Block (General VIM)"
+    marker: "\" {mark} Ansible Managed Block (General VIM)"
     create: yes
     path: /etc/vimrc.more
 
 - name: Configure Vim for Powerline
   blockinfile:
     block: "{{ lookup('file', './files/config_files/vimrc_powerline') }}"
-    marker: "# {mark} Ansible Managed Block (powerline)"
+    marker: "\" {mark} Ansible Managed Block (powerline)"
     path: /etc/vimrc.more
   when: install_powerline
 
