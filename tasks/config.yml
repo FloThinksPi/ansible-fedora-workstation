@@ -1,0 +1,57 @@
+---
+
+- name: Improve global bash history
+  copy: src=./files/config_files/history.sh dest=/etc/profile.d/history.sh
+
+- name: Set global Gitconfig
+  copy: src=./files/config_files/gitconfig dest=/etc/gitconfig
+
+- name: Apply global vimrc config
+  lineinfile: dest=/etc/vimrc state=present regexp='^source \/etc\/vimrc.more' line='source /etc/vimrc.more'
+
+- name: Set general vimrc
+  blockinfile:
+    block: "{{ lookup('file', './files/config_files/vimrc') }}"
+    marker: "# {mark} Ansible Managed Block (General VIM)"
+    path: /etc/vimrc.more
+
+- name: Configure Vim for Powerline
+  blockinfile:
+    block: "{{ lookup('file', './files/config_files/vimrc_powerline') }}"
+    marker: "# {mark} Ansible Managed Block (powerline)"
+    create: yes
+    path: /etc/vimrc.more
+  when: install_powerline
+
+- name: Configure Bashrc (Powerline, VI-Mode etc.)
+  blockinfile:
+    block: "{{ lookup('file', './files/config_files/bashrc_additions') }}"
+    marker: "# {mark} Ansible Managed Block (general)"
+    path: /etc/bashrc
+
+- name: Configure Bashrc for golang
+  blockinfile:
+    block: "{{ lookup('file', './files/config_files/bashrc_additions_golang') }}"
+    marker: "# {mark} Ansible Managed Block (golang)"
+    path: /etc/bashrc
+  when: install_dev_go
+
+- name: Reduce kernel swappiness
+  sysctl: name=vm.swappiness value={{ swappiness }} state=present reload=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
+
+- name: Increase Inotify Max User Watches (needed for IDEs and Large Folder Structures)
+  sysctl: name=fs.inotify.max_user_watches value=524288 state=present reload=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
+
+- name: Conigure Tuned to Performance always
+  shell: tuned-adm profile latency-performance
+  when: not laptop
+
+- name: Copy Udev Rules for Tuned to be configured to Performance on AC and Energy Saving on DC
+  copy: src=./files/laptop_power_management/udev/* dest=/etc/udev/rules.d/ mode=700
+  when: laptop
+
+- name: Copy Scripts for Tuned to be configured to Performance on AC and Energy Saving on DC
+  copy: src=./files/laptop_power_management/scripts/* dest=/usr/local/bin/ mode=700
+  when: laptop
+
+# Config Flameshot Key to print

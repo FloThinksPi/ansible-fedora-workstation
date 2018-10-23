@@ -1,0 +1,2 @@
+# Low Battery
+SUBSYSTEM=="power_supply", ATTR{capacity}=="[0-1][0-5]", RUN+="/usr/local/bin/dc_critical_powermode.sh"

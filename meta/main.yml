@@ -1,6 +1,6 @@
 galaxy_info:
-  author: Joe Doss
-  description: Configures your Fedora Workstation install for 10x Devopsing.
+  author: Florian Braun
+  description: Configures your Fedora Workstation.
 
   license: MIT
 
@@ -13,5 +13,6 @@ galaxy_info:
 
   galaxy_tags:
     - workstation
+    - fedora
 
 dependencies: []

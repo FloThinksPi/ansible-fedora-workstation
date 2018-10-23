@@ -1,15 +1,16 @@
 ---
+
+- name: Install Krypton ( https://krypt.co )
+  dnf:
+    name: kr
+    state: present
+  when: install_krypton
+
 - name: Install Google Chrome
   dnf:
     name: google-chrome-stable
     state: present
   when: install_chrome
-
-- name: Install Google Talk
-  dnf:
-    name: google-talkplugin
-    state: present
-  when: install_googletalk
 
 - name: Install Spotify
   dnf:
@@ -37,19 +38,15 @@
 
   when: install_slack
 
+
 - block:
 
-  - name: Check for Zoom
-    stat: path=/usr/bin/zoom
-    register: zoom_installed
+    - name: install steam
+      dnf:
+        name: "steam"
+        state: present
 
-  - name: Install Zoom RPM
-    dnf:
-      name: 'https://zoom.us/client/latest/zoom_x86_64.rpm'
-      state: present
-    when: zoom_installed.stat.exists == False
-
-  when: install_zoom
+  when: install_steam
 
 - block:
 
@@ -70,3 +67,9 @@
     when: atom_installed.stat.exists == False
 
   when: install_atom
+
+- name: install vscode
+  dnf:
+    name: code
+    state: present
+  when: install_vscode

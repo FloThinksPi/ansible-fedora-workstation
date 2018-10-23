@@ -5,337 +5,106 @@
     name: "*"
     state: latest
 
-- name: Install group packages
-  dnf: name={{item}} state=installed
+- name: Install Generel Development Tools
+  dnf: name={{ item }} state=installed
   with_items:
   - "@development tools"
-  - "@fedora-packager"
-  - "@virtualization"
+  - kernel-devel
+  - git
+  when: install_dev_general
 
-- name: Install extra packages
+- name: Install Ansible Development Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - ansible-lint
+  - ansible
+  when: install_dev_ansible
+
+- name: Install C,C++,C# Development Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - "@C Development Tools and Libraries"
+  - automake
+  - gcc
+  - gcc-c++
+  - cmake
+  when: install_dev_C
+
+- name: Install GoLang Development Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - golang
+  - golang-godoc
+  - golang-gotype
+  - gotags
+  when: install_dev_go
+
+- name: Install Python Development Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - python3
+  - python
+  - python3-devel
+  - python-devel
+  when: install_dev_python
+
+- name: Install Java / Android Development Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - java-1.8.0-openjdk
+  - java-1.8.0-openjdk-devel
+  - android-tools
+  when: install_dev_java
+
+- name: Install additional Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - restic
+  - gnome-tweak-tool
+  when: install_nice_tools
+
+- name: Install Linux Basics
   dnf: name={{ item }} state=installed
   with_items:
   - acpi
-  - aide
-  - android-tools
-  - ansible-lint
-  - appliance-tools
-  - arpwatch
-  - asciidoc
-  - asciidoc-doc
-  - aspell
-  - aspell-en
-  - atomic
-  - autoconf
+  - lm_sensors
   - autofs
-  - automake
-  - awscli
-  - binwalk
-  - bpython
-  - cmake
-  - collectl
-  - conntrack-tools
-  - copr-cli
-  - copr-cli-doc
-  - createrepo
-  - createrepo_c-devel
   - crypto-utils
-  - Cython
-  - dcfldd
-  - ditaa
   - dnf-plugins-extras-common
   - dnf-plugins-extras-kickstart
   - dnf-plugins-extras-repoclosure
   - dnf-plugins-extras-repograph
   - dnf-plugins-extras-show-leaves
   - dnf-plugins-extras-tracer
-  - docker
-  - docker-vim
-  - doge
-  - doxygen
-  - dstat
-  - duplicity
-  - elixir
-  - euca2ools
-  - fail2ban
-  - fdupes
-  - fedfind
-  - fedpkg
-  - feh
-  - figlet
-  - firewalld
-  - flatpak-builder
-  - fwsnort
   - fwupdate
-  - gcc-c++
-  - gcc-go
-  - gdb-doc
-  - gimp
-  - glances
-  - gnome-shell-extension-fedmsg
-  - gnome-shell-extension-pomodoro
-  - gnome-tweak-tool
-  - gpaste
-  - groovy
-  - heimdall
-  - hovercraft
   - htop
-  - httpie
-  - hub
-  - imagefactory
-  - imagefactory-plugins-Docker
-  - imagefactory-plugins-IndirectionCloud
-  - inkscape
+  - nmon
   - inotify-tools
-  - intltool
-  - inxi
-  - iotop
-  - iptraf-ng
-  - jq
-  - jython
-  - kernel-devel
-  - kismet
-  - kismet-plugins
-  - letsencrypt
-  - lftp
-  - libguestfs
-  - libguestfs-tools
-  - libguestfs-tools-c
-  - libguestfs-xfs
-  - libicns-utils
-  - libmtp-examples
-  - libnfs
-  - libnfsidmap
-  - libsemanage-devel
-  - libtaskotron
-  - libtool
-  - libvirt
-  - libvirt-python
-  - libvirt-sandbox
-  - livecd-tools
-  - liveusb-creator
   - lm_sensors
-  - lorax
   - lshw
   - lsscsi
   - ltrace
-  - lynx
-  - mash
-  - meld
-  - mysql-devel
-  - ncftp
-  - nfs-utils
-  - ngrep
   - nmap
-  - nmon
-  - nodejs
-  - nodejs-docs
-  - nodejs-grunt
-  - npm
-  - openscap
-  - openscap-containers
-  - openscap-daemon
-  - openscap-scanner
-  - openscap-utils
-  - openssl-devel
-  - pandoc
-  - pass
-  - patchutils
-  - pavucontrol
-  - pavumeter
-  - pcp
-  - pcp-doc
-  - pcp-gui
-  - perf
-  - picocom
-  - pinta
-  - pkgwat
-  - policycoreutils-python
-  - postfix
-  - postgresql-devel
-  - powertop
-  - psad
-  - pssh
-  - pungi
-  - pv
-  - pyflakes
-  - pykickstart
-  - pylint
-  - pyp2rpm
-  - pypy
-  - pyside-tools
-  - pytest
-  - python3-firewall
-  - python-argcomplete
-  - python-autopep8
-  - python-beautifulsoup4
-  - python-boto
-  - python-bottle
-  - python-celery
-  - python-cffi-doc
-  - python-clientform
-  - python-createrepo_c
-  - python-demjson
-  - python-docker-py
-  - python-docs
-  - python-docs-info
-  - python-epdb
-  - python-flake8
-  - python-flask
-  - python-flexmock
-  - python-ipython
-  - python-ipython-gui
-  - python-ipython-sphinx
-  - python-kickstart
-  - python-lxml
-  - python-mccabe
-  - python-mechanize
-  - python-mock
-  - python-netaddr
-  - python-pandas
-  - python-passlib
-  - python-pep8
-  - python-productmd
-  - python-pygments
-  - python-pyside
-  - python-requests
-  - python-rope
-  - python-ropemode
-  - python-rpmfluff
-  - python-sphinx
-  - python-sphinx-doc
-  - python-sphinx_rtd_theme
-  - python-straight-plugin
-  - python-virtualenv
-  - python-virtualenvwrapper
-  - python2-devel
-  - python3-autopep8
-  - python3-bottle
-  - python3-bpython
-  - python3-celery
-  - python3-cffi
-  - python3-click
-  - python3-Cython
-  - python3-devel
-  - python3-django
-  - python3-docs
-  - python3-flake8
-  - python3-flask
-  - python3-flexmock
-  - python3-ipython
-  - python3-ipython-gui
-  - python3-ipython-sphinx
-  - python3-mccabe
-  - python3-mock
-  - python3-mypy
-  - python3-nose
-  - python3-pandas
-  - python3-pelican
-  - python3-pep8
-  - python3-pillow-devel
-  - python3-productmd
-  - python3-pyflakes
-  - python3-pygments
-  - python3-pylint
-  - python3-sphinx
-  - python3-sphinx_rtd_theme
-  - python3-straight-plugin
-  - python3-virtualenv
-  - qiv
-  - qpdf
-  - ranger
-  - recode
-  - redis
-  - rfkill
-  - rolekit
+  - pstree
   - rpm-ostree
   - rpm-ostree-toolbox
-  - ruby
-  - ruby-devel
-  - ruby-doc
-  - ruby-irb
-  - rubygem-aws-sdk
-  - rubygem-cucumber
-  - rubygem-dynect_rest
-  - rubygem-dynect_rest
-  - rubygem-fog
-  - rubygem-fog-doc
-  - rubygem-gem2rpm
-  - rubygem-gherkin
-  - rubygem-highline
-  - rubygem-parseconfig
-  - rubygem-pry
-  - rubygem-pry-doc
-  - rubygem-puppet-lint
-  - rubygem-rails
-  - rubygem-rhc
-  - rubygem-rspec
-  - rubygem-thor
-  - rubygem-wirb
-  - rubygems
-  - rubygems-devel
-  - runc
-  - sbcl
-  - sbt
-  - sbt
-  - scala
-  - scap-workbench
-  - scapy
-  - scl-utils-build
   - screen
-  - screen
-  - screenfetch
-  - setools-console
-  - sg3_utils
-  - sigul
   - smartmontools
-  - socat
-  - spec2scl
   - speedtest-cli
-  - spin-kickstarts
-  - sssd-nfs-idmap
   - strace
-  - surl
-  - swig
-  - swig-doc
-  - sysstat
-  - system-storage-manager
-  - task
-  - tcllib
-  - terminator
-  - testcloud
-  - testdisk
-  - thunderbird
-  - tito
-  - tlp
-  - tlp-rdw
+  - jq
   - tmux
   - tmuxinator
-  - tpp
-  - transmission-cli
-  - tuna
   - tuned
   - tuned-utils
   - tuned-utils-systemtap
-  - tunir
-  - units
-  - vagrant
-  - vagrant-doc
-  - vagrant-libvirt
-  - vagrant-libvirt-doc
-  - valgrind
   - vim-enhanced
-  - virt-top
   - whois
-  - wireshark-cli
-  - xbacklight
- # - xchat
-  - xclip
-  - xfsdump
-  - xournal
-  - xsel
-  - ykclient
-  - ykpers
+  - p7zip
+  - p7zip-plugins
+  - unrar
+  - unzip
+  when: install_linux_basics
 
 - name: Install RPM packager packages
   dnf: name={{ item }} state=installed
@@ -354,10 +123,6 @@
   - gofed
   - gofed-build
   - gofed-scan
-  - golang
-  - golang-godoc
-  - golang-gotype
-  - gotags
   - kernel-rpm-macros
   - kf5-rpm-macros
   - mock
@@ -380,7 +145,46 @@
   - scl-utils-build
   - sip-macros
   - web-assets-devel
+  - "@fedora-packager"
   when: install_packager
+
+- block:
+
+  - name: Uninstall Possible Docker Installs
+    dnf: name={{ item }} state=removed
+    with_items:
+    - docker
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-selinux
+    - docker-engine-selinux
+    - docker-engine
+
+  - name: Install Docker-CE
+    dnf: name={{ item }} state=present
+    with_items:
+    - docker-ce
+    - docker-compose
+
+  when: install_dockerce
+
+- name: Install thermald
+  dnf: name={{ item }} state=installed
+  with_items:
+  - thermald
+  when: is_laptop
+
+- name: Install Powerline
+  dnf: name={{ item }} state=installed
+  with_items:
+  - powerline
+  - powerline-fonts
+  - vim-powerline
+  when: install_powerline
 
 - name: Install extra fonts
   dnf: name={{ item }} state=installed
@@ -403,3 +207,17 @@
   - overpass-fonts
   - terminus-fonts
   when: install_extra_fonts
+
+- name: Install Multimedia Codecs and Tools
+  dnf: name={{ item }} state=installed
+  with_items:
+  - "@multimedia"
+  - ffmpeg
+  - vlc
+  when: install_non_free_mediacodecs
+
+- name: Install Flameshot
+  dnf: name={{ item }} state=installed
+  with_items:
+  - flameshot
+  when: install_flameshot

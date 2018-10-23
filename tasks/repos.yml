@@ -1,31 +1,54 @@
 ---
+
+- block:
+  
+  - name: RPMFUSION for Media Codecs
+    dnf:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-28.noarch.rpm"
+      - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-28.noarch.rpm"
+
+  when: install_non_free_mediacodecs
+
 - block:
 
-    - name: Check for Google Chrome repo
-      stat: path=/etc/yum.repos.d/google-chrome.repo
-      register: chrome_installed
+  - name: microsoft vscode repo
+    yum_repository:
+      name: code
+      description: vscode
+      file: vscode
+      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+      baseurl: https://packages.microsoft.com/yumrepos/vscode
 
-    - name: Install Google Chrome repo
-      dnf:
-        name: 'https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm'
-        state: present
-      when: chrome_installed.stat.exists == False
+  when: install_vscode
+
+- block:
+
+  - name: Check for Docker-CE repo
+    stat: path=/etc/yum.repos.d/docker-ce.repo
+    register: docker_ce_installed
+
+  - name: Install Docker CE repo
+    command: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+    when: docker_ce_installed.stat.exists == False
+
+  when: install_dockerce
+
+- block:
+
+  - name: Check for Google Chrome repo
+    stat: path=/etc/yum.repos.d/google-chrome.repo
+    register: chrome_installed
+
+  - name: Install Google Chrome repo
+    dnf:
+      name: 'https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm'
+      state: present
+    when: chrome_installed.stat.exists == False
 
   when: install_chrome
-
-- block:
-
-    - name: Check for Google Talk repo
-      stat: path=/etc/yum.repos.d/google-talkplugin.repo
-      register: googletalk_installed
-
-    - name: Install Google Talk repo
-      dnf:
-        name: 'https://dl.google.com/linux/direct/google-talkplugin_current_x86_64.rpm'
-        state: present
-      when: googletalk_installed.stat.exists == False
-
-  when: install_googletalk
 
 - block:
 
@@ -50,3 +73,15 @@
       when: fedora_sublime_text_installed.stat.exists == False
 
   when: install_sublime_text
+
+- block:
+
+    - name: Check for krypt.co repo
+      stat: path=/etc/yum.repos.d/kryptco.repo
+      register: krypton_installed
+
+    - name: Install krypt.co repo
+      command: dnf config-manager --add-repo https://krypt.co/repo/kryptco.repo 
+      when: krypton_installed.stat.exists == False
+
+  when: install_krypton

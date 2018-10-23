@@ -1,32 +1,41 @@
 ---
 
-# User
-local_user: jdoe 
-local_user_email: jdoe@email.com 
-local_user_passwordless_sudo: true
-
-# System
-libvirt_storage_path: /home/images
+# Configuration
+is_laptop: true				# Configures Powermanagement for Laptops, tuned and thermald
+swappiness: "5"
 
 # Services
-enable_sshd: true
-enable_fail2ban: true 
-enable_vagrant_nfs: true
-enable_libvirtd: true
-enable_docker: true
+autostart_docker: true
 
-# Extras
+# Extras (see packages.yml)
+install_nice_tools: true
+install_linux_basics: true
 install_extra_fonts: true
-install_packager: true
+install_powerline: true
+install_non_free_mediacodecs: true
+install_flameshot: true
 
-# Third party
-install_chrome: true 
-install_googletalk: true
-install_slack: true
+# Development Tools & Environments
+install_packager: false
+install_dockerce: true
+install_dev_general: true
+install_dev_ansible: true
+install_dev_C: true
+install_dev_go: true
+install_dev_python: true
+install_dev_java: true
+
+# Third party Tools
+install_chrome: true
+install_slack: false
 install_spotify: true
-install_zoom: true
-install_sublime_text: false
-install_atom: true 
+install_steam: true
+install_krypton: true 			# Installs https://krypt.co
 
-#python3
+# Third party Editors
+install_vscode: true
+install_sublime_text: false
+install_atom: false
+
+#Python Interpreter for Playbook
 ansible_python_interpreter: /usr/bin/python3

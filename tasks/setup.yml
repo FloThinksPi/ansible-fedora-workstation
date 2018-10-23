@@ -5,3 +5,9 @@
 
 - name: gather facts
   setup:
+
+- name: Apply fastmirror and increase parallel download dnf config
+  lineinfile: dest=/etc/dnf/dnf.conf state=present regexp={{item.regexp}} line={{item.line}}
+  with_items:
+  - { regexp: '^fastestmirror=', line: 'fastestmirror=1' }
+  - { regexp: '^max_parallel_downloads=', line: 'max_parallel_downloads=20' }

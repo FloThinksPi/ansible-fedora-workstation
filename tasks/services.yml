@@ -1,41 +1,21 @@
 ---
 
-- name: Start and enable postfix
-  service:
-    name: postfix
-    state: started
-    enabled: yes
-
-- name: Start and enable sshd
-  service:
-    name: sshd
-    state: started
-    enabled: yes
-  when: enable_sshd
-
-- name: Start and enable fail2ban
-  service:
-    name: fail2ban
-    state: started
-    enabled: yes
-  when: enable_fail2ban
-
-- name: Enable nfs-server
-  service:
-    name: nfs
-    enabled: yes
-  when: enable_vagrant_nfs
-
-- name: Start and enable libvirtd
-  service:
-    name: libvirtd
-    state: started
-    enabled: yes
-  when: enable_libvirtd
-
-- name: Start and enable docker
+- name: Start and enable Docker
   service:
     name: docker
     state: started
     enabled: yes
-  when: enable_docker
+  when: install_dockerce and autostart_docker
+
+- name: Start and enable tuned
+  service:
+    name: tuned
+    state: started
+    enabled: yes
+
+- name: Start and enable thermald
+  service:
+    name: thermald
+    state: started
+    enabled: yes
+  when: is_laptop
