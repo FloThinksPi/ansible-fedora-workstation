@@ -1,4 +1,4 @@
 #!/bin/bash
 
-tuned-adm profile latency-performance
-xbacklight -set 100
+/sbin/tuned-adm profile desktop &
+brightnessctl s 80%

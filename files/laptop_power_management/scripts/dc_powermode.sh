@@ -1,5 +1,4 @@
 #!/bin/bash
 
-
-tuned-adm profile laptop-battery-powersave
-xbacklight -set 60
+/sbin/tuned-adm profile powersave &
+brightnessctl s 30%

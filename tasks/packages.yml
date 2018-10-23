@@ -219,3 +219,10 @@
   with_items:
   - flameshot
   when: install_flameshot
+
+
+- name: Install Laptop Energy Saving dependencies
+  dnf: name={{ item }} state=installed
+  with_items:
+  - brightnessctl
+  when: is_laptop
