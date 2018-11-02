@@ -1,6 +1,6 @@
 # Fedora Workstation
 
-This is an opinionated playbook to setup a Fedora 28 workstation with everything you need to start developing on Fedora Linux.
+This is an opinionated playbook to setup a Fedora 28 and 29 workstation with everything you need to start developing on Fedora Linux.
 This also installs a powermanagement for Laptops that change diplay brightness and tuned profile based on battery level and ac connection.
 
 ## Quick Setup
